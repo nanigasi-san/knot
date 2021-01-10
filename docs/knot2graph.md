@@ -5,7 +5,8 @@
 2. グラフとしての特徴
 3. 結び目→グラフ
 4. グラフ→結び目
-5. 資料
+5. 同一性の判定
+6. 資料
 
 ## 1. 概要
 一本のひもにRI+/S+をすることで構成された結び目を多重有向グラフ(多重辺や自己ループを持つ有向グラフ)として表現する。
@@ -90,43 +91,17 @@
 ### 実装
 [algorithms.py](../graphs/algorithms.py)
 
-### 実行結果
-#### g_0
-```
-Nodes: [(0, {'parity': None}), (1, {'parity': None})]
-EulerC: [(0, 1, {'Tu': None, 'Tv': None}), (1, 0, {'Tu': None, 'Tv': None})]
-```
-![g_0](../images/knot2graph/g-0.png)
 
-#### g_1
-```
-Nodes: [(0, {'parity': None}), (1, {'parity': None}), (2, {'parity': 'Odd'})]
-EulerC: [(0, 2, {'Tu': None, 'Tv': 'A'}), (2, 1, {'Tu': 'B', 'Tv': None}), (1, 2, {'Tu': None, 'Tv': 'B'}), (2, 0, {'Tu': 'A', 'Tv': None})]
-```
-![g_1](../images/knot2graph/g-1.png)
+## 5. 同一性の判定
+もともとの結び目Kiが持っているオイラー閉路と、Kiを変換して得られたGiから得られたオイラー閉路が同一なら、KiとGiが相互に変換できていると判断する。
 
-#### g_2_1
-```
-Nodes: [(0, {'parity': None}), (1, {'parity': 'Odd'}), (2, {'parity': 'Odd'}), (3, {'parity': None})]
-EulerC: [(0, 1, {'Tu': None, 'Tv': 'A'}), (1, 2, {'Tu': 'B', 'Tv': 'A'}), (2, 3, {'Tu': 'B', 'Tv': None}), (3, 2, {'Tu': None, 'Tv': 'B'}), (2, 1, {'Tu': 'A', 'Tv': 'B'}), (1, 0, {'Tu': 'A', 'Tv': None})]
-```
-![g_2_1](../images/knot2graph/g-2-1.png)
+オイラー閉路ec1とec2があるとき、任意の辺を最初にすることでec1=ec2となるとき、ec1とec2が同一であるとする。
 
-#### g_2_2
-```
-Nodes: [(0, {'parity': 'Odd'}), (1, {'parity': 'Even'})]
-EulerC: [(0, 1, {'Tu': 'B', 'Tv': 'B'}), (1, 0, {'Tu': 'B', 'Tv': 'A'}), (0, 1, {'Tu': 'B', 'Tv': 'A'}), (1, 0, {'Tu': 'A', 'Tv': 'A'})]
-```
-![g_2_2](../images/knot2graph/g-2-2.png)
+### 実装
+[check.py](../graphs/check.py)
 
-#### g_2_3
-```
-Nodes: [(0, {'parity': 'Odd'}), (1, {'parity': 'Odd'}), (2, {'parity': 'Even'})]
-EulerC: [(0, 1, {'Tu': 'B', 'Tv': 'A'}), (1, 2, {'Tu': 'B', 'Tv': 'A'}), (2, 1, {'Tu': 'A', 'Tv': 'B'}), (1, 0, {'Tu': 'A', 'Tv': 'B'}), (0, 2, {'Tu': 'A', 'Tv': 'B'}), (2, 0, {'Tu': 'B', 'Tv': 'A'})]
-```
-![g_2_3](../images/knot2graph/g-2-3.png)
 
-## 5. 資料
+## 6. 資料
 + [結び目理論 - Wikipedia](https://ja.m.wikipedia.org/wiki/%E7%B5%90%E3%81%B3%E7%9B%AE%E7%90%86%E8%AB%96)
 + [競プロにおけるオイラー路とその応用について - Learning Algorithms](https://kokiymgch.hatenablog.com/entry/2017/12/07/193238)
 + [グラフ理論とNetworkX - PyQ](https://docs.pyq.jp/python/math_opt/graph.html)
