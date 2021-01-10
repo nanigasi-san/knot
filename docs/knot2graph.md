@@ -100,6 +100,8 @@
 ### 実装
 [check.py](../graphs/check.py)
 
+### 実行結果
+step0~step3までは全て復元できた。
 
 ## 6. 資料
 + [結び目理論 - Wikipedia](https://ja.m.wikipedia.org/wiki/%E7%B5%90%E3%81%B3%E7%9B%AE%E7%90%86%E8%AB%96)
