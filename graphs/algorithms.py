@@ -3,6 +3,7 @@ from copy import deepcopy
 from step0 import g_0
 from step1 import g_1
 from step2 import g_2_1, g_2_2, g_2_3
+from step3 import g_3_3
 from time import sleep
 
 def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
@@ -40,7 +41,7 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
     next_type = get_next_type(now_parity, now_type)
     while g.edges:
         flg = False
-        for next, atlas_view in g.succ[now].items():
+        for next, atlas_view in list(g.succ[now].items()):
             for key, data in list(atlas_view.items()):
                 if data["Tu"] == next_type:
                     ans.append((now, next, data))
@@ -60,7 +61,7 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
             while not ok:
                 edge = ans.pop(-1)
                 u, v, edge_data = edge
-                for next, atlas_view in g.succ[u].items():
+                for next, atlas_view in list(g.succ[u].items()):
                     for key, data in list(atlas_view.items()):
                         if data["Tu"] == edge_data["Tu"]:
                             ans.append((u, next, data))
@@ -82,3 +83,4 @@ get_eulerian_circuit(g_1)
 get_eulerian_circuit(g_2_1)
 get_eulerian_circuit(g_2_2)
 get_eulerian_circuit(g_2_3)
+get_eulerian_circuit(g_3_3)
