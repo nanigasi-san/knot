@@ -1,8 +1,8 @@
 # 分割のルールを見つけるためのデータまとめ
 
 ## 定義
-![type_of_odd](../docs/images/type-of-odd.png)
-![type_of_even](../docs/images/type-of-even.png)
+![type_of_odd](../images/split_data/type-of-odd.png)
+![type_of_even](../images/split_data/type-of-even.png)
 
 ### AとBの数の表
 
