@@ -1,10 +1,5 @@
 import networkx as nx
 from copy import deepcopy
-from step0 import g_0
-from step1 import g_1
-from step2 import g_2_1, g_2_2, g_2_3
-from step3 import g_3_3
-from time import sleep
 
 def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
     ans = []
@@ -75,12 +70,12 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
                             ok = True
                 g.add_edge(u, v, **edge_data)
 
-    print("Nodes:", g.nodes(data=True))
-    print("EulerC:", ans)
-    print("-"*50)
-get_eulerian_circuit(g_0)
-get_eulerian_circuit(g_1)
-get_eulerian_circuit(g_2_1)
-get_eulerian_circuit(g_2_2)
-get_eulerian_circuit(g_2_3)
-get_eulerian_circuit(g_3_3)
+    return ans
+
+def is_same_circuit(ec1, ec2) -> bool:
+    for _ in range(len(ec2)):
+        ec2.append(ec2.pop(0))
+        if ec1 == ec2:
+            return True
+    else:
+        return False
