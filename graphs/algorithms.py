@@ -7,19 +7,14 @@ from time import sleep
 
 def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
     ans = []
-
     g = deepcopy(g)
-    # print(g.nodes(data=True))
-    # print(g.edges(data=True))
     first_edge = list(g.edges(data=True))[0]
-    # print(first_edge)
     u, v, ABdata = first_edge
     for key, data in g[u][v].items():
         if data == ABdata:
             g.remove_edge(u, v, key=key)
             break
     ans.append(first_edge)
-    # print(g.edges(data=True))
     now = v
 
     now_parity = g.nodes[now]["parity"]
@@ -59,9 +54,29 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
                     break
             if flg:
                 break
-        # print(g.edges(data=True), ans, now, now_parity, now_type, next_type)
+        else:
+            print("miss!", ans)
+            ok = False
+            while not ok:
+                edge = ans.pop(-1)
+                u, v, edge_data = edge
+                for next, atlas_view in g.succ[u].items():
+                    for key, data in list(atlas_view.items()):
+                        if data["Tu"] == edge_data["Tu"]:
+                            ans.append((u, next, data))
+                            g.remove_edge(u, next, key=key)
+
+                            now = next
+                            now_parity = g.nodes[now]["parity"]
+                            now_type = data["Tv"]
+                            next_type = get_next_type(now_parity, now_type)
+
+                            ok = True
+                g.add_edge(u, v, **edge_data)
+
     print("Nodes:", g.nodes(data=True))
     print("EulerC:", ans)
+    print("-"*50)
 get_eulerian_circuit(g_0)
 get_eulerian_circuit(g_1)
 get_eulerian_circuit(g_2_1)
