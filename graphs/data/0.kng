@@ -1,0 +1,7 @@
+[nodes]
+0 None
+1 None
+
+[euler circuit]
+0 1 None None
+1 0 None None
