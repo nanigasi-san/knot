@@ -58,16 +58,55 @@
 
 この時、結び目Kiを変換したグラフOiが存在するとして、Oiを復元するとKiと同一の結び目Kjになるように定義する。
 
-これはあるグラフOについてオイラー閉路を求め、その通りに繋げばよい。細かい部分は後で(あるグラフについて結び目がただ一つに定まればよい。)このアルゴを書くこと。
 
 ### アルゴリズム
+1. 適当に辺(u, v)を一つ選ぶ
+2. 自分の位置をvに更新する
+3. vの偶奇とどこへ入ったかから、次の辺がABどちらから出るか判定する
+4. その辺を消す
+5. vから出ている辺のうち、3の条件を満たす辺(u, v)を選ぶ
+6. 2に戻る
+
+step3-3(P1-2ab)でバグるので直してね
+
 ### 実装
+[algorithms.py](../graphs/algorithms.py)
+
 ### 実行結果
 #### g_0
 ```
 Nodes: [(0, {'parity': None}), (1, {'parity': None})]
 EulerC: [(0, 1, {'Tu': None, 'Tv': None}), (1, 0, {'Tu': None, 'Tv': None})]
 ```
+![g_0](../images/knot2graph/g-0.png)
+
+#### g_1
+```
+Nodes: [(0, {'parity': None}), (1, {'parity': None}), (2, {'parity': 'Odd'})]
+EulerC: [(0, 2, {'Tu': None, 'Tv': 'A'}), (2, 1, {'Tu': 'B', 'Tv': None}), (1, 2, {'Tu': None, 'Tv': 'B'}), (2, 0, {'Tu': 'A', 'Tv': None})]
+```
+![g_1](../images/knot2graph/g-1.png)
+
+#### g_2_1
+```
+Nodes: [(0, {'parity': None}), (1, {'parity': 'Odd'}), (2, {'parity': 'Odd'}), (3, {'parity': None})]
+EulerC: [(0, 1, {'Tu': None, 'Tv': 'A'}), (1, 2, {'Tu': 'B', 'Tv': 'A'}), (2, 3, {'Tu': 'B', 'Tv': None}), (3, 2, {'Tu': None, 'Tv': 'B'}), (2, 1, {'Tu': 'A', 'Tv': 'B'}), (1, 0, {'Tu': 'A', 'Tv': None})]
+```
+![g_2_1](../images/knot2graph/g-2-1.png)
+
+#### g_2_2
+```
+Nodes: [(0, {'parity': 'Odd'}), (1, {'parity': 'Even'})]
+EulerC: [(0, 1, {'Tu': 'B', 'Tv': 'B'}), (1, 0, {'Tu': 'B', 'Tv': 'A'}), (0, 1, {'Tu': 'B', 'Tv': 'A'}), (1, 0, {'Tu': 'A', 'Tv': 'A'})]
+```
+![g_2_2](../images/knot2graph/g-2-2.png)
+
+#### g_2_3
+```
+Nodes: [(0, {'parity': 'Odd'}), (1, {'parity': 'Odd'}), (2, {'parity': 'Even'})]
+EulerC: [(0, 1, {'Tu': 'B', 'Tv': 'A'}), (1, 2, {'Tu': 'B', 'Tv': 'A'}), (2, 1, {'Tu': 'A', 'Tv': 'B'}), (1, 0, {'Tu': 'A', 'Tv': 'B'}), (0, 2, {'Tu': 'A', 'Tv': 'B'}), (2, 0, {'Tu': 'B', 'Tv': 'A'})]
+```
+![g_2_3](../images/knot2graph/g-2-3.png)
 
 ## 6. 資料
 + [結び目理論 - Wikipedia](https://ja.m.wikipedia.org/wiki/%E7%B5%90%E3%81%B3%E7%9B%AE%E7%90%86%E8%AB%96)
