@@ -128,5 +128,6 @@ EulerC: [(0, 1, {'Tu': 'B', 'Tv': 'A'}), (1, 2, {'Tu': 'B', 'Tv': 'A'}), (2, 1, 
 
 ## 5. 資料
 + [結び目理論 - Wikipedia](https://ja.m.wikipedia.org/wiki/%E7%B5%90%E3%81%B3%E7%9B%AE%E7%90%86%E8%AB%96)
-+ [競プロにおけるオイラー路とその応用について](https://kokiymgch.hatenablog.com/entry/2017/12/07/193238)
-+ [グラフ理論とNetworkX](https://docs.pyq.jp/python/math_opt/graph.html)
++ [競プロにおけるオイラー路とその応用について - Learning Algorithms](https://kokiymgch.hatenablog.com/entry/2017/12/07/193238)
++ [グラフ理論とNetworkX - PyQ](https://docs.pyq.jp/python/math_opt/graph.html)
++ [【Python】NetworkX 2.0の基礎的な使い方まとめ - Qiita](https://qiita.com/kzm4269/items/081ff2fdb8a6b0a6112f)
