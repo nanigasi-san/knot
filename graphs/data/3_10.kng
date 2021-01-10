@@ -1,0 +1,18 @@
+[nodes]
+0 Odd
+1 Even
+2 Odd
+3 Odd
+4 Even
+
+[euler circuit]
+0 3 B A
+3 4 B B
+4 3 B B
+3 2 A B
+2 1 A B
+1 4 B A
+4 2 A A
+2 0 B B
+0 1 A A
+1 0 A A
