@@ -1,5 +1,6 @@
 import networkx as nx
 from copy import deepcopy
+from time import sleep
 
 def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
     ans = []
@@ -52,6 +53,7 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
                 break
         else:
             print("miss!", ans)
+            sleep(5)
             ok = False
             while not ok:
                 edge = ans.pop(-1)
