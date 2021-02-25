@@ -1,11 +1,3 @@
-[nodes]
-0 Odd
-1 Even
-2 Odd
-3 Odd
-4 Even
-
-[edges]
 0 3 B A
 3 4 B B
 4 3 B B

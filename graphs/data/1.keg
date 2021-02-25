@@ -3,7 +3,7 @@
 1 Odd
 2 None
 
-[euler circuit]
+[edges]
 0 1 None A
 1 2 B None
 2 1 None B
