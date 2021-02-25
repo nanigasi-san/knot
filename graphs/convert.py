@@ -1,6 +1,6 @@
 import networkx as nx
 
-def kng_to_graph_and_ec(filepath: str) -> tuple:
+def keg_to_graph_and_ec(filepath: str) -> tuple:
     g = nx.MultiDiGraph()
     ec = []
     nodes_now, edges_now = False, False
