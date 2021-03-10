@@ -1,12 +1,17 @@
-import convert
-from algorithms import get_eulerian_circuit, is_same_circuit
+from convert import keg_to_graph, ec_to_eulerian_circuit
+from algorithms import get_eulerian_circuit, is_same_circuit, is_same_graph
 from glob import glob
 
-keg_paths = glob("data/*.keg")
-ec_paths = glob("data/*.ec")
 
 def test_graph_to_circuit():
+    keg_paths = glob("data/*.keg")
+    ec_paths = glob("data/*.ec")
     for keg_path, ec_path in zip(keg_paths, ec_paths):
-        g = convert.keg_to_graph(keg_path)
-        ec = convert.ec_to_eulerian_circuit(ec_path)
+        g = keg_to_graph(keg_path)
+        ec = ec_to_eulerian_circuit(ec_path)
         assert is_same_circuit(get_eulerian_circuit(g), ec)
+
+def test_is_same_graph():
+    g1 = keg_to_graph("graphs/data/is_same_graph/1_1.keg")
+    g2 = keg_to_graph("graphs/data/is_same_graph/1_2.keg")
+    assert is_same_graph(g1, g2)

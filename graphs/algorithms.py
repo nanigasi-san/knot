@@ -81,3 +81,8 @@ def is_same_circuit(ec1, ec2) -> bool:
             return True
     else:
         return False
+
+def is_same_graph(g1: nx.MultiDiGraph, g2: nx.MultiDiGraph) -> bool:
+    ec1 = get_eulerian_circuit(g1)
+    ec2 = get_eulerian_circuit(g2)
+    return is_same_circuit(ec1, ec2)
