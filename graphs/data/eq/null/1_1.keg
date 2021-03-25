@@ -1,0 +1,10 @@
+[nodes]
+0 Odd
+1 None
+2 None
+
+[edges]
+0 1 A None
+1 0 None A
+0 2 B None
+2 0 None B

@@ -86,3 +86,19 @@ def is_same_graph(g1: nx.MultiDiGraph, g2: nx.MultiDiGraph) -> bool:
     ec1 = get_eulerian_circuit(g1)
     ec2 = get_eulerian_circuit(g2)
     return is_same_circuit(ec1, ec2)
+
+def dell_null_node(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
+    g = deepcopy(g)
+    edges = g.edges(data=True)
+    # print(edges)
+    for node, parity in g.nodes(data="parity"):
+        if parity is None:
+            pred, pred_data = list(dict(g.pred[node][0]).items())[0]
+            succ, succ_data = list(dict(g.succ[node][0]).items())[0]
+            g.remove_edge(pred, node)
+            g.remove_edge(node, succ)
+            g.add_edge(pred, succ, Tu=pred_data["Tu"], Tv=pred_data["Tv"])
+    for node in g.nodes:
+        if not (g.successors(node) and g.predecessors(node)):
+            g.remove_node(node)
+    return g
