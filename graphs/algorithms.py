@@ -102,3 +102,26 @@ def dell_null_node(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
         if not (g.successors(node) and g.predecessors(node)):
             g.remove_node(node)
     return g
+
+def r1_minus(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
+    g = g.copy()
+    del_nodes = []
+    for node, parity in g.nodes(data="parity"):
+        # print(node, parity)
+        if (parity == "Odd") and (node in g.neighbors(node)):
+            data = g[node][node][0]
+            if data["Tu"] != data["Tv"]:
+                for pred_node, data in g.pred[node].items():
+                    if pred_node != node:
+                        u = pred_node
+                        Tu = data[0]["Tu"]
+                for succ_node, data in g.succ[node].items():
+                    if succ_node != node:
+                        v = succ_node
+                        Tv = data[0]["Tv"]
+                # print(u, v, Tu, Tv)
+                del_nodes.append(node)
+                g.add_edge(u, v, Tu=Tu, Tv=Tv)
+    for node in del_nodes:
+        g.remove_node(node)
+    return g
