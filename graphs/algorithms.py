@@ -53,7 +53,7 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
                 break
         else:
             print("miss!", ans)
-            sleep(5)
+            sleep(1)
             ok = False
             while not ok:
                 edge = ans.pop(-1)
@@ -125,3 +125,52 @@ def r1_minus(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
     for node in del_nodes:
         g.remove_node(node)
     return g
+
+"""
+1: 空のグラフオブジェクトXを用意する
+2: 元のグラフGの適当な辺をひとつ選ぶ。その辺の始点を頂点番号0としてXに追加する(頂点の偶奇はそのまま写す)
+3: 2.で選んだ辺からGのオイラー閉路を辿る。
+4: 途中で新しい頂点(Xに追加されていない頂点)を通ったら連番で番号をつける。この時、先に入ったA(またはB)をAとする。この時、最初の辺は頂点0のBから出ているとする。
+5: 4.のルールを守りながら通った辺をXに辺を追加していく
+"""
+
+def rebuild(g: nx.MultiDiGraph):
+    ans = []
+    rev = {"A": "B", "B": "A"}
+    ec = get_eulerian_circuit(g)
+    for _ in range(len(ec)):
+        node_dict = {}
+        ec.append(ec.pop(0))
+        x = nx.MultiDiGraph()
+        u, v, data = ec[0]
+        Tu = data["Tu"]
+        Tv = data["Tv"]
+        node_dict[u] = (0, (Tu == "B"))
+        x.add_node(0, parity=g.nodes[u]["parity"])
+        if v not in node_dict:
+            node_dict[v] = (1, Tv == "A")
+            x.add_node(1, parity=g.nodes[v]["parity"])
+        nu, ab_same_u = node_dict[u]
+        nv, ab_same_v = node_dict[v]
+        nTu = Tu if ab_same_u else rev[Tu]
+        nTv = Tv if ab_same_v else rev[Tv]
+        x.add_edge(nu, nv, Tu=nTu, Tv=nTv)
+
+        for ec_edge in ec[1:]:
+            u, v, data = ec_edge
+            Tu = data["Tu"]
+            Tv = data["Tv"]
+            if v not in node_dict:
+                node_dict[v] = (x.number_of_nodes(), (Tv == "A"))
+                x.add_node(x.number_of_nodes(), parity=g.nodes[v]["parity"])
+            nu, ab_same_u = node_dict[u]
+            nv, ab_same_v = node_dict[v]
+            nTu = Tu if ab_same_u else rev[Tu]
+            nTv = Tv if ab_same_v else rev[Tv]
+            x.add_edge(nu, nv, Tu=nTu, Tv=nTv)
+        ans.append(x)
+    return ans
+
+
+def judge_equal(g1, g2):
+    pass
