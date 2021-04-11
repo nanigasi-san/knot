@@ -171,6 +171,28 @@ def rebuild(g: nx.MultiDiGraph):
         ans.append(x)
     return ans
 
+def integration_nodes(g):
+    def is_connect(p1, p2):
+        c1 = len(g[p1][p2]) if p2 in g.succ[p1] else 0
+        c2 = len(g[p2][p1]) if p1 in g.succ[p2] else 0
+        if c1 == 2:
+            return True, 1
+        elif c2 == 0:
+            return True, 1
+        elif c1 == 1 and c2 == 1:
+            return True, 2
+        else:
+            return False, 0
 
-def judge_equal(g1, g2):
-    pass
+    for p1, data1 in g.nodes(data="parity"):
+        for p2, data2 in g.nodes(data="parity"):
+            conn, conn_type = is_connect(p1, p2)
+            if conn:
+                if conn_type == 1:  # a
+                    pass
+                else:  # b
+                    pass
+    """
+    a, b, c, dの割り振り、後はやるだけ
+    """
+    return g
