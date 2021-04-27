@@ -1,3 +1,5 @@
 __pycache__
 hoge*
 .pytest_cache
+tex
+*.gz
