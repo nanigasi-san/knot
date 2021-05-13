@@ -1,9 +1,12 @@
 [nodes]
-0 Even
-1 Odd
+0 Odd
+1 Even
+2 Even
 
 [edges]
+0 1 B A
+1 2 A A
+2 0 A A
 0 1 B B
-1 0 A A
-0 1 A A
-1 0 B B
+1 2 B B
+2 0 B A

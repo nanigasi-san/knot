@@ -180,24 +180,36 @@ def integration_nodes(g):
         3: type-b
         """
         c1 = len(g[p1][p2]) if p2 in g.succ[p1] else 0
-        c2 = len(g[p2][p1]) if p1 in g.succ[p2] else 0
-        if c1 == 2:
+        c2 = len(g[p2][p1]) if p1 in g.succ[p2] else 0 # TODO: A/Bに触れてない
+
+        def can_integ_type_a(a, b):
+            data = tuple(dict(g[a][b]).values())
+            return data[0]["Tu"] != data[1]["Tu"] and data[0]["Tv"] != data[1]["Tv"]
+        def can_integ_type_b(a, b):
+            data1 = tuple(dict(g[a][b]).values())[0]
+            data2 = tuple(dict(g[b][a]).values())[0]
+            return data1["Tu"] != data2["Tv"] and data1["Tv"] != data2["Tu"]
+
+        if c1 == 2 and can_integ_type_a(p1, p2):
             return True, 1
-        elif c2 == 2:
+        elif c2 == 2 and can_integ_type_a(p2, p1):
             return True, 2
-        elif c1 == 1 and c2 == 1:
+        elif c1 == 1 and c2 == 1 and can_integ_type_b(p1, p2):
             return True, 3
         else:
             return False, 0
     def integration() -> bool:
         for p1, parity1 in g.nodes(data="parity"):
-            for p2, parity12 in g.nodes(data="parity"):
+            for p2, parity2 in g.nodes(data="parity"):
                 conn, conn_type = is_connect(p1, p2)
                 if conn:
                     if conn_type == 1:
+                        print(p1, p2)
                     # p1, p2が含まれていない二辺を探し、a, b, c, dとTa...Tdを振る。この時T1a...T2bも振る
                         for_p1 = g.pred[p1].items()
                         from_p2 = g.succ[p2].items()
+                        print(for_p1)
+                        print(from_p2)
                     elif conn_type == 2:  # a
                         pass
                     else:  # b
