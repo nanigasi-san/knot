@@ -173,26 +173,38 @@ def rebuild(g: nx.MultiDiGraph):
 
 def integration_nodes(g):
     def is_connect(p1, p2):
+        """
+        0: not-connected
+        1: type-a(p1->p2)
+        2: type-a(p2->p1)
+        3: type-b
+        """
         c1 = len(g[p1][p2]) if p2 in g.succ[p1] else 0
         c2 = len(g[p2][p1]) if p1 in g.succ[p2] else 0
         if c1 == 2:
             return True, 1
-        elif c2 == 0:
-            return True, 1
-        elif c1 == 1 and c2 == 1:
+        elif c2 == 2:
             return True, 2
+        elif c1 == 1 and c2 == 1:
+            return True, 3
         else:
             return False, 0
-
-    for p1, data1 in g.nodes(data="parity"):
-        for p2, data2 in g.nodes(data="parity"):
-            conn, conn_type = is_connect(p1, p2)
-            if conn:
-                if conn_type == 1:  # a
-                    pass
-                else:  # b
-                    pass
+    def integration() -> bool:
+        for p1, parity1 in g.nodes(data="parity"):
+            for p2, parity12 in g.nodes(data="parity"):
+                conn, conn_type = is_connect(p1, p2)
+                if conn:
+                    if conn_type == 1:
+                    # p1, p2が含まれていない二辺を探し、a, b, c, dとTa...Tdを振る。この時T1a...T2bも振る
+                        for_p1 = g.pred[p1].items()
+                        from_p2 = g.succ[p2].items()
+                    elif conn_type == 2:  # a
+                        pass
+                    else:  # b
+                        pass
+    integration()
     """
-    a, b, c, dの割り振り、後はやるだけ
+    while integration():
+        pass
     """
     return g
