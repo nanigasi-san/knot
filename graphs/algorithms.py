@@ -2,6 +2,7 @@ import networkx as nx
 from copy import deepcopy
 from time import sleep
 
+
 def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
     ans = []
     g = deepcopy(g)
@@ -23,7 +24,6 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
                 return "B"
             elif now_type == "B":
                 return "A"
-
 
         elif now_parity == "Even":
             if now_type == "A":
@@ -74,6 +74,7 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
 
     return ans
 
+
 def is_same_circuit(ec1, ec2) -> bool:
     for _ in range(len(ec2)):
         ec2.append(ec2.pop(0))
@@ -82,10 +83,12 @@ def is_same_circuit(ec1, ec2) -> bool:
     else:
         return False
 
+
 def is_same_graph(g1: nx.MultiDiGraph, g2: nx.MultiDiGraph) -> bool:
     ec1 = get_eulerian_circuit(g1)
     ec2 = get_eulerian_circuit(g2)
     return is_same_circuit(ec1, ec2)
+
 
 def dell_null_node(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
     g = deepcopy(g)
@@ -102,6 +105,7 @@ def dell_null_node(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
         if not (g.successors(node) and g.predecessors(node)):
             g.remove_node(node)
     return g
+
 
 def r1_minus(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
     g = g.copy()
@@ -126,6 +130,7 @@ def r1_minus(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
         g.remove_node(node)
     return g
 
+
 """
 1: 空のグラフオブジェクトXを用意する
 2: 元のグラフGの適当な辺をひとつ選ぶ。その辺の始点を頂点番号0としてXに追加する(頂点の偶奇はそのまま写す)
@@ -133,6 +138,7 @@ def r1_minus(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
 4: 途中で新しい頂点(Xに追加されていない頂点)を通ったら連番で番号をつける。この時、先に入ったA(またはB)をAとする。この時、最初の辺は頂点0のBから出ているとする。
 5: 4.のルールを守りながら通った辺をXに辺を追加していく
 """
+
 
 def rebuild(g: nx.MultiDiGraph):
     ans = []
@@ -170,6 +176,7 @@ def rebuild(g: nx.MultiDiGraph):
             x.add_edge(nu, nv, Tu=nTu, Tv=nTv)
         ans.append(x)
     return ans
+
 
 def integration_nodes(g):
     def is_connect(p1, p2):
