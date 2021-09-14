@@ -1,7 +1,7 @@
 import networkx as nx
 from copy import deepcopy
 from time import sleep
-from useful import convert_edges
+from useful import convert_edges, print_graph
 
 
 def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
@@ -215,20 +215,22 @@ def s_plus(input_g: nx.MultiDiGraph) -> list[nx.MultiDiGraph]:
     n = len(ec)
     extend_ec = ec * 2
     for i in range(n-1):
-        for j in (1, n):
+        for j in range(1, n):
+            print(f"step{i}-{j} start.")
+            print_graph(input_g)
             start_edge = extend_ec[i]
             end_edge = extend_ec[i+j]
             a, b, Ta, Tb = tuple(start_edge)
             c, d, Tc, Td = tuple(end_edge)
             g = deepcopy(input_g)
 
-            nn = g.number_of_nodes  # number_of_nodes
+            nn = g.number_of_nodes()  # number_of_nodes
             g.add_node(nn, parity="Odd")
 
-            g.add_edge(a, nn, Ta, "A")
-            g.add_edge(b, nn, Tb, "B")
-            g.add_edge(nn, c, "B", Tc)
-            g.add_edge(nn, d, "A", Td)
+            g.add_edge(a, nn, Tu=Ta, Tv="A")
+            g.add_edge(b, nn, Tu=Tb, Tv="B")
+            g.add_edge(nn, c, Tu="B", Tv=Tc)
+            g.add_edge(nn, d, Tu="A", Tv=Td)
 
             g.remove_edge(a, b)
             g.remove_edge(c, d)
@@ -236,10 +238,12 @@ def s_plus(input_g: nx.MultiDiGraph) -> list[nx.MultiDiGraph]:
             for k in range(i+1, i+j-1):
                 edge = ec[k]
                 u, v, Tu, Tv = tuple(edge)
-                g.add_edge(v, u, Tv, Tu)
+                g.add_edge(v, u, Tu=Tv, Tv=Tu)
                 g.remove_edge(u, v)
                 """
                 TODO: これ同じ辺が二個あって片方が範囲から出ていたらバグりませんか。消す前に辺の数を調べ、二個以上あるときは消さないほう(消す辺と一致しないもの)を保持し、remove_edgeの後で同じ辺を追加する。
                 """
             output.append(g)
+            print(f"step{i}-{j} is done.")
+            print_graph(g)
     return output
