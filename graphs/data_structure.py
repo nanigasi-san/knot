@@ -10,3 +10,7 @@ class Edge:
 
     def __repr__(self):
         return self.__str__()
+
+    def __iter__(self):
+        for i in (self.u, self.v, self.Tu, self.Tv):
+            yield i
