@@ -1,5 +1,6 @@
 import networkx as nx
 
+
 def keg_to_graph(filepath: str) -> nx.MultiDiGraph:
     g = nx.MultiDiGraph()
     nodes_now, edges_now = False, False
@@ -21,7 +22,6 @@ def keg_to_graph(filepath: str) -> nx.MultiDiGraph:
                 parity = parity if parity in {"Odd", "Even"} else None
                 g.add_node(u, parity=parity)
 
-
             elif edges_now:
                 u, v, Tu, Tv = l.split()
                 u = int(u)
@@ -30,6 +30,7 @@ def keg_to_graph(filepath: str) -> nx.MultiDiGraph:
                 Tv = Tv if Tv in {"A", "B"} else None
                 g.add_edge(u, v, Tu=Tu, Tv=Tv)
     return g
+
 
 def ec_to_eulerian_circuit(filepath: str) -> list:
     ec = []
