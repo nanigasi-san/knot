@@ -92,7 +92,7 @@ def is_same_graph(g1: nx.MultiDiGraph, g2: nx.MultiDiGraph) -> bool:
 
 def dell_null_node(g: nx.MultiDiGraph) -> nx.MultiDiGraph:
     g = deepcopy(g)
-    edges = g.edges(data=True)
+    # edges = g.edges(data=True)
     # print(edges)
     for node, parity in g.nodes(data="parity"):
         if parity is None:
