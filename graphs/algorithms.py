@@ -247,3 +247,7 @@ def s_plus(input_g: nx.MultiDiGraph) -> list[nx.MultiDiGraph]:
             print(f"step{i}-{j} is done.")
             print_graph(g)
     return output
+
+
+def extend_graph(input_g: nx.MultiDiGraph) -> nx.MultiDiGraph:
+    pass
