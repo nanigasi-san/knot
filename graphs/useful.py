@@ -1,4 +1,5 @@
 import networkx as nx
+from data_structure import Edge
 
 A = "A"
 B = "B"
@@ -20,12 +21,8 @@ def print_graph(g: nx.MultiDiGraph) -> None:
     print("Edges:", [(edge[0], edge[1], *list(g.get_edge_data(*edge[:2])[0].values())) for edge in g.edges])
 
 
-def convert_edges_for_list_of_tuple(edges):
+def convert_edges(edges: list[tuple[int, int, dict]]) -> list[Edge]:
     ans = []
     for edge in list(edges):
-        u, v, data = edge
-        Tu = data["Tu"]
-        Tv = data["Tv"]
-        new_edge = (u, v, Tu, Tv)
-        ans.append(new_edge)
+        ans.append(Edge(edge))
     return ans
