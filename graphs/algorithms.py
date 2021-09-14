@@ -1,6 +1,7 @@
 import networkx as nx
 from copy import deepcopy
 from time import sleep
+from useful import convert_edges
 
 
 def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
@@ -18,7 +19,7 @@ def get_eulerian_circuit(g: nx.MultiDiGraph) -> tuple:
     now_parity = g.nodes[now]["parity"]
     now_type = ABdata["Tv"]
 
-    def get_next_type(now_parity, now_type):
+    def get_next_type(now_parity: str, now_type: str):
         if now_parity == "Odd":
             if now_type == "A":
                 return "B"
@@ -203,3 +204,42 @@ def integration_nodes(g):
     a, b, c, dの割り振り、後はやるだけ
     """
     return g
+
+
+def s_plus(input_g: nx.MultiDiGraph) -> list[nx.MultiDiGraph]:
+    """
+    拡張済みのグラフに対してS+をする関数。
+    """
+    output = []
+    ec = convert_edges(get_eulerian_circuit(input_g))
+    n = len(ec)
+    extend_ec = ec * 2
+    for i in range(n-1):
+        for j in (1, n):
+            start_edge = extend_ec[i]
+            end_edge = extend_ec[i+j]
+            a, b, Ta, Tb = tuple(start_edge)
+            c, d, Tc, Td = tuple(end_edge)
+            g = deepcopy(input_g)
+
+            nn = g.number_of_nodes  # number_of_nodes
+            g.add_node(nn, parity="Odd")
+
+            g.add_edge(a, nn, Ta, "A")
+            g.add_edge(b, nn, Tb, "B")
+            g.add_edge(nn, c, "B", Tc)
+            g.add_edge(nn, d, "A", Td)
+
+            g.remove_edge(a, b)
+            g.remove_edge(c, d)
+
+            for k in range(i+1, i+j-1):
+                edge = ec[k]
+                u, v, Tu, Tv = tuple(edge)
+                g.add_edge(v, u, Tv, Tu)
+                g.remove_edge(u, v)
+                """
+                TODO: これ同じ辺が二個あって片方が範囲から出ていたらバグりませんか。消す前に辺の数を調べ、二個以上あるときは消さないほう(消す辺と一致しないもの)を保持し、remove_edgeの後で同じ辺を追加する。
+                """
+            output.append(g)
+    return output
