@@ -11,10 +11,12 @@ def test_graph_to_circuit():
         ec = ec_to_eulerian_circuit(ec_path)
         assert is_same_circuit(get_eulerian_circuit(g), ec)
 
+
 def test_is_same_graph():
     g1 = keg_to_graph("data/is_same_graph/1_1.keg")
     g2 = keg_to_graph("data/is_same_graph/1_2.keg")
     assert is_same_graph(g1, g2)
+
 
 def test_del_null_nodes():
     g1 = keg_to_graph("data/eq/null/1_1.keg")
